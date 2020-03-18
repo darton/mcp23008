@@ -4,9 +4,6 @@ from gpiozero import Button
 from signal import pause
 from time import sleep
 import ctypes
-import subprocess as sp
-
-
 
 # Get I2C bus
 bus = smbus.SMBus(1)
