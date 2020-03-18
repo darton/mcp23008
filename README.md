@@ -1,2 +1,3 @@
 # mcp23008
-MCP23008 with GPIOZERO library
+Use CP23008 as Raspberry Pi inputs expander based on GPIOZERO library.
+
