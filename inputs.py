@@ -83,11 +83,7 @@ def interrupt_handling():
     if (int_flag == 0):
         int_flag = 1
         pins = Flags()
-        pins.asByte = bus.read_byte_data(MCP23008_DEFAULT_ADDRESS, MCP23008_REG_GPIO)
-        sp.call('clear',shell=True)
-        #print("logout: %i" % flags.bit.pin1)
-        # `bit` is defined as anonymous field, so its fields can also be accessed directly:
-        #print("logout: %i" % flags.pin1)
+        pins.asByte = bus.read_byte_data(MCP23008_DEFAULT_ADDRESS, MCP23008_REG_GPIO)   
         print("Input_1: %i" % pins.bit0)
         print("Input_2: %i" % pins.bit1)
         print("Input_3: %i" % pins.bit2)
