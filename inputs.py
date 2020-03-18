@@ -48,12 +48,12 @@ class Flags_bits( ctypes.LittleEndianStructure ):
     _fields_ = [
                  ("bit0", c_uint8, 1 ),  # asByte & 1
                  ("bit1", c_uint8, 1 ),  # asByte & 2
-                 ("bit2", c_uint8, 1 ),  # asByte & 3
-                 ("bit3", c_uint8, 1 ),  # asByte & 4
-                 ("bit4", c_uint8, 1 ),  # asByte & 5
-                 ("bit5", c_uint8, 1 ),  # asByte & 6
-                 ("bit6", c_uint8, 1 ),  # asByte & 7
-                 ("bit7", c_uint8, 1 ),  # asByte & 8
+                 ("bit2", c_uint8, 1 ),  # asByte & 4
+                 ("bit3", c_uint8, 1 ),  # asByte & 8
+                 ("bit4", c_uint8, 1 ),  # asByte & 16
+                 ("bit5", c_uint8, 1 ),  # asByte & 32
+                 ("bit6", c_uint8, 1 ),  # asByte & 64
+                 ("bit7", c_uint8, 1 ),  # asByte & 128
                ]
 
 class Flags( ctypes.Union ):
