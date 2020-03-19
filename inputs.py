@@ -8,7 +8,6 @@ from mcp23008 import *
 # Get I2C bus
 bus = smbus.SMBus(1)
 
-
 def clear_interrupt():
     intcap = bus.read_byte_data(MCP23008_DEFAULT_ADDRESS, MCP23008_REG_INTCAP)
 
@@ -65,7 +64,6 @@ interrupt = Button(27, pull_up=False, hold_time=0.001)
 
 interrupt.when_pressed = interrupt_handling
 interrupt.when_held = clear_interrupt
-
 
 print("When button is pressed you'll see a message")
 
