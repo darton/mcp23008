@@ -4,11 +4,10 @@ from gpiozero import Button
 from signal import pause
 from time import sleep
 import ctypes
+from mcp23008 import *
 
 # Get I2C bus
 bus = smbus.SMBus(1)
-
-from mcp23008 import *
 
 def clear_interrupt():
     intcap = bus.read_byte_data(MCP23008_DEFAULT_ADDRESS, MCP23008_REG_INTCAP)
