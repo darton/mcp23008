@@ -57,7 +57,6 @@ class Flags( ctypes.Union ):
                  ("asByte", c_uint8    )
                 ]
 
-lock = threading.Lock()
 
 init_mcp23008()
 clear_interrupt()
