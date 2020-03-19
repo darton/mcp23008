@@ -8,6 +8,7 @@ from mcp23008 import *
 # Get I2C bus
 bus = smbus.SMBus(1)
 
+
 def clear_interrupt():
     intcap = bus.read_byte_data(MCP23008_DEFAULT_ADDRESS, MCP23008_REG_INTCAP)
 
@@ -23,7 +24,6 @@ def init_mcp23008():
 
 
 def interrupt_handling():
-    global mcp23008_gpio
     pins = Flags()
     pins.asByte = bus.read_byte_data(MCP23008_DEFAULT_ADDRESS, MCP23008_REG_GPIO)
     print("Input_1: %i" % pins.bit0)
