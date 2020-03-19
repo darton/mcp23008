@@ -8,10 +8,6 @@ import subprocess as sp
 
 from mcp23008 import *
 
-# Get I2C bus
-bus = smbus.SMBus(1)
-
-
 def clear_interrupt():
     intcap = bus.read_byte_data(MCP23008_DEFAULT_ADDRESS, MCP23008_REG_INTCAP)
 
@@ -53,7 +49,22 @@ class Flags( ctypes.Union ):
                  ("asByte", c_uint8    )
                 ]
 
+def print_on_screen():
+    sp.call('clear',shell=True)
+    pins = Flags()
+    pins.asByte = mcp_gpio
+    print("Input_1: %i" % pins.bit0)
+    print("Input_2: %i" % pins.bit1)
+    print("Input_3: %i" % pins.bit2)
+    print("Input_4: %i" % pins.bit3)
+    print("Input_5: %i" % pins.bit4)
+    print("Input_6: %i" % pins.bit5)
+    print("Input_7: %i" % pins.bit6)
+    print("Input_8: %i" % pins.bit7)
 
+# Get I2C bus
+bus = smbus.SMBus(1)
+    
 init_mcp23008()
 clear_interrupt()
 
@@ -65,19 +76,9 @@ interrupt.when_held = clear_interrupt
 
 print("When button is pressed you'll see a message")
 
-
 while True:
     if int_flag == 1:
-        sp.call('clear',shell=True)
-        pins = Flags()
-        pins.asByte = mcp_gpio
-        print("Input_1: %i" % pins.bit0)
-        print("Input_2: %i" % pins.bit1)
-        print("Input_3: %i" % pins.bit2)
-        print("Input_4: %i" % pins.bit3)
-        print("Input_5: %i" % pins.bit4)
-        print("Input_6: %i" % pins.bit5)
-        print("Input_7: %i" % pins.bit6)
-        print("Input_8: %i" % pins.bit7)
-        int_flag = 0
+        print_on_screen()
+    int_flag = 0
     sleep(0.05)
+
