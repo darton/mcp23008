@@ -4,10 +4,14 @@ from gpiozero import Button
 from signal import pause
 from time import sleep
 import ctypes
-from mcp23008 import *
+import threading
 
 # Get I2C bus
 bus = smbus.SMBus(1)
+
+from mcp23008 import *
+
+
 
 def clear_interrupt():
     intcap = bus.read_byte_data(MCP23008_DEFAULT_ADDRESS, MCP23008_REG_INTCAP)
@@ -22,24 +26,19 @@ def init_mcp23008():
     #intf = bus.read_byte_data(MCP23008_DEFAULT_ADDRESS, MCP23008_REG_INTF)
     #intcap = bus.read_byte_data(MCP23008_DEFAULT_ADDRESS, MCP23008_REG_INTCAP)
 
+
 def interrupt_handling():
     global mcp23008_gpio
-    global int_flag
-    global int_end
-    if (int_flag == 0):
-        int_flag = 1
-        pins = Flags()
-        pins.asByte = bus.read_byte_data(MCP23008_DEFAULT_ADDRESS, MCP23008_REG_GPIO)
-        print("Input_1: %i" % pins.bit0)
-        print("Input_2: %i" % pins.bit1)
-        print("Input_3: %i" % pins.bit2)
-        print("Input_4: %i" % pins.bit3)
-        print("Input_5: %i" % pins.bit4)
-        print("Input_6: %i" % pins.bit5)
-        print("Input_7: %i" % pins.bit6)
-        print("Input_8: %i" % pins.bit7)
-        int_flag = 0
-        int_end = 1
+    pins = Flags()
+    pins.asByte = bus.read_byte_data(MCP23008_DEFAULT_ADDRESS, MCP23008_REG_GPIO)
+    print("Input_1: %i" % pins.bit0)
+    print("Input_2: %i" % pins.bit1)
+    print("Input_3: %i" % pins.bit2)
+    print("Input_4: %i" % pins.bit3)
+    print("Input_5: %i" % pins.bit4)
+    print("Input_6: %i" % pins.bit5)
+    print("Input_7: %i" % pins.bit6)
+    print("Input_8: %i" % pins.bit7)
 
 
 c_uint8 = ctypes.c_uint8
@@ -63,16 +62,16 @@ class Flags( ctypes.Union ):
                  ("asByte", c_uint8    )
                 ]
 
+lock = threading.Lock()
 
 init_mcp23008()
 clear_interrupt()
 
-int_flag=0
-int_end=0
-interrupt = Button(27, pull_up=False, hold_time=0.01)
+interrupt = Button(27, pull_up=False, hold_time=0.001)
 
 interrupt.when_pressed = interrupt_handling
 interrupt.when_held = clear_interrupt
+
 
 print("When button is pressed you'll see a message")
 
