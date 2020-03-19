@@ -2,7 +2,6 @@
 import smbus
 from gpiozero import Button
 from signal import pause
-from time import sleep
 import ctypes
 from mcp23008 import *
 
