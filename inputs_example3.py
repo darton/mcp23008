@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from pid import PidFile
 import threading
 import smbus
 import ctypes
@@ -9,6 +10,9 @@ from time import sleep
 import subprocess as sp
 
 from mcp23008 import *
+
+
+
 
 def clear_interrupt():
     intcap = bus.read_byte_data(MCP23008_DEFAULT_ADDRESS, MCP23008_REG_INTCAP)
@@ -23,7 +27,6 @@ def init_mcp23008():
     #intf = bus.read_byte_data(MCP23008_DEFAULT_ADDRESS, MCP23008_REG_INTF)
     #intcap = bus.read_byte_data(MCP23008_DEFAULT_ADDRESS, MCP23008_REG_INTCAP)
 
-
 def interrupt_handling():
     t = threading.Thread(target=do_something)
     t.daemon = True
@@ -32,7 +35,6 @@ def interrupt_handling():
 def do_something():
     read_gpio()
     print_on_screen()
-    get_url()
 
 def read_gpio():
     global mcp_gpio
@@ -42,14 +44,16 @@ def print_on_screen():
     sp.call('clear',shell=True)
     pins = Flags()
     pins.asByte = mcp_gpio
-    print("Input_1: %i" % pins.bit0)
-    print("Input_2: %i" % pins.bit1)
-    print("Input_3: %i" % pins.bit2)
-    print("Input_4: %i" % pins.bit3)
-    print("Input_5: %i" % pins.bit4)
-    print("Input_6: %i" % pins.bit5)
-    print("Input_7: %i" % pins.bit6)
-    print("Input_8: %i" % pins.bit7)
+    print("When button is pressed you'll see a message")
+    print("")
+    print("Input 1 = %i" % pins.bit0)
+    print("Input 2 = %i" % pins.bit1)
+    print("Input 3 = %i" % pins.bit2)
+    print("Input 4 = %i" % pins.bit3)
+    print("Input 5 = %i" % pins.bit4)
+    print("Input 6 = %i" % pins.bit5)
+    print("Input 7 = %i" % pins.bit6)
+    print("Input 8 = %i" % pins.bit7)
 
 def get_url():
     pins = Flags()
@@ -82,19 +86,21 @@ class Flags( ctypes.Union ):
                  ("asByte", c_uint8    )
                 ]
 
+with PidFile(piddir='/tmp/'):
+
 # Get I2C bus
-bus = smbus.SMBus(1)
+    bus = smbus.SMBus(1)
 
 
-init_mcp23008()
-clear_interrupt()
+    init_mcp23008()
+    clear_interrupt()
 
-int_flag = 0
-interrupt = Button(27, pull_up=False, hold_time=0.001)
+    mcp_gpio = 0xFF
+    interrupt = Button(27, pull_up=False, hold_time=0.001)
 
-interrupt.when_pressed = interrupt_handling
-interrupt.when_held = clear_interrupt
+    print_on_screen()
 
-print("When button is pressed you'll see a message")
+    interrupt.when_pressed = interrupt_handling
+    interrupt.when_held = clear_interrupt
 
-pause()
+    pause()
