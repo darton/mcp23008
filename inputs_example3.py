@@ -89,7 +89,6 @@ with PidFile(piddir='/tmp/'):
     bus = smbus.SMBus(1)
 
     init_mcp23008()
-
     clear_interrupt()
 
     mcp_gpio = 0xFF
