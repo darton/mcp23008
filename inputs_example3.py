@@ -32,6 +32,7 @@ def interrupt_handling():
 def do_something():
     read_gpio()
     print_on_screen()
+    get_url()
 
 def read_gpio():
     global mcp_gpio
