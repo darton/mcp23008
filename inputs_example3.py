@@ -83,6 +83,7 @@ class Flags( ctypes.Union ):
                  ("asByte", c_uint8    )
                 ]
 
+# --- Main program ---
 with PidFile(piddir='/tmp/'):
 
 # Get I2C bus
