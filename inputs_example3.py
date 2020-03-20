@@ -11,9 +11,6 @@ import subprocess as sp
 
 from mcp23008 import *
 
-
-
-
 def clear_interrupt():
     intcap = bus.read_byte_data(MCP23008_DEFAULT_ADDRESS, MCP23008_REG_INTCAP)
 
@@ -64,7 +61,6 @@ def get_url():
     else:
         response = urlopen('https://127.0.0.1/json.htm?type=command&param=udevice&idx=' + str(input_id) + '&svalue=0', context=ssl._create_unverified_context())
 
-
 c_uint8 = ctypes.c_uint8
 
 class Flags_bits( ctypes.LittleEndianStructure ):
@@ -90,7 +86,6 @@ with PidFile(piddir='/tmp/'):
 
 # Get I2C bus
     bus = smbus.SMBus(1)
-
 
     init_mcp23008()
     clear_interrupt()
